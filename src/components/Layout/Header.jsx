@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { LogOut, Sun, Moon } from 'lucide-react';
+import { LogOut, Sun, Moon, Menu } from 'lucide-react';
 import NotificationDropdown from '../Notifications/NotificationDropdown';
 
-export default function Header() {
+export default function Header({ setSidebarOpen }) {
   const { currentUser, logout } = useAuth();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   return (
     <>
-      <header className="flex h-16 shrink-0 items-center justify-between border-b border-neutral-200 bg-white px-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 transition-colors">
+      <header className="flex h-16 shrink-0 items-center justify-between border-b border-neutral-200 bg-white px-4 md:px-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 transition-colors">
       <div className="flex items-center">
+        <button 
+          className="mr-3 md:hidden p-1 -ml-1 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-white rounded-md"
+          onClick={() => setSidebarOpen(true)}
+        >
+          <Menu className="h-6 w-6" />
+        </button>
         <h1 className="text-lg font-semibold text-neutral-900 dark:text-white">Workspace</h1>
       </div>
       <div className="flex items-center gap-4">

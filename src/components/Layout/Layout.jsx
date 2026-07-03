@@ -63,11 +63,13 @@ export default function Layout() {
     return <Navigate to="/login" replace />;
   }
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="flex h-screen overflow-hidden bg-neutral-50 dark:bg-neutral-900 transition-colors">
-      <Sidebar />
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <Header />
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0 w-full">
+        <Header setSidebarOpen={setSidebarOpen} />
         <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>

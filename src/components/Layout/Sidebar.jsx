@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, MessageCircle, Rocket, Layers, Zap, Settings, Headset, BookOpen, Store, Sun, Moon, Blocks, Bot } from 'lucide-react';
+import { Home, MessageCircle, Rocket, Layers, Zap, Settings, Headset, BookOpen, Store, Sun, Moon, Blocks, Bot, X } from 'lucide-react';
 import clsx from 'clsx';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -16,21 +16,45 @@ const navItems = [
   { name: 'Integrations', path: '/integrations', icon: Blocks },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="flex h-full w-64 flex-col bg-white text-neutral-600 border-r border-neutral-200 dark:bg-black dark:text-neutral-300 dark:border-neutral-800 transition-colors">
-      <div className="flex h-16 shrink-0 items-center px-6 border-b border-neutral-200 dark:border-neutral-800 transition-colors">
-        <Bot className="h-8 w-8 text-indigo-500 mr-2" />
-        <span className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight">Helvica<span className="text-indigo-500">Connect</span></span>
-      </div>
+    <>
+      {/* Mobile backdrop */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-neutral-900/80 backdrop-blur-sm transition-opacity md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div 
+        className={clsx(
+          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-white text-neutral-600 border-r border-neutral-200 dark:bg-black dark:text-neutral-300 dark:border-neutral-800 transition-transform duration-300 ease-in-out md:relative md:translate-x-0",
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
+        <div className="flex h-16 shrink-0 items-center justify-between px-6 border-b border-neutral-200 dark:border-neutral-800 transition-colors">
+          <div className="flex items-center">
+            <Bot className="h-8 w-8 text-indigo-500 mr-2" />
+            <span className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight">Helvica<span className="text-indigo-500">Connect</span></span>
+          </div>
+          <button 
+            className="md:hidden text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-white"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
       <div className="flex flex-1 flex-col overflow-y-auto px-4 py-6">
         <nav className="flex-1 space-y-1">
           {navItems.map((item) => (
             <NavLink
               key={item.name}
               to={item.path}
+              onClick={() => setSidebarOpen(false)}
               className={({ isActive }) =>
                 clsx(
                   isActive
@@ -48,6 +72,7 @@ export default function Sidebar() {
         <div className="mt-auto flex flex-col gap-2">
           <NavLink
             to="/settings"
+            onClick={() => setSidebarOpen(false)}
             className={({ isActive }) =>
               clsx(
                 isActive
@@ -73,6 +98,7 @@ export default function Sidebar() {
           </button>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
