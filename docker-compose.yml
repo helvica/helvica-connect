@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   frontend:
     build:
@@ -21,12 +19,38 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
-    env_file:
-      - ./backend/.env
+    environment:
+      - DB_HOST=db
+      - DB_USER=helvica
+      - DB_PASS=helvicasecret
+      - DB_NAME=helvicacrm
     restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
     networks:
       - helvica-net
+
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=helvicacrm
+      - MYSQL_USER=helvica
+      - MYSQL_PASSWORD=helvicasecret
+      - MYSQL_ROOT_PASSWORD=helvicasecret_root
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - helvica-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
 networks:
   helvica-net:
     driver: bridge
+
+volumes:
+  db_data:
