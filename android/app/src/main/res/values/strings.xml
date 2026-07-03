@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Helvica Connect</string>
+    <string name="title_activity_main">Helvica Connect</string>
+    <string name="package_name">in.helvica.connect</string>
+    <string name="custom_url_scheme">in.helvica.connect</string>
+</resources>

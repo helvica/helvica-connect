@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { Capacitor } from '@capacitor/core';
 
 const AuthContext = createContext();
 
@@ -9,8 +10,10 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  // Use relative path so Caddy can proxy it
-  const API_URL = '/api';
+  // Use relative path for web, and fully qualified domain for native mobile apps
+  const API_URL = Capacitor.isNativePlatform() 
+    ? 'https://connect.helvica.in/api' 
+    : '/api';
 
   useEffect(() => {
     // Check local storage for token on mount
