@@ -9,8 +9,8 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  // Use Vercel's env var or fallback to local backend
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+  // Use relative path so Caddy can proxy it
+  const API_URL = '/api';
 
   useEffect(() => {
     // Check local storage for token on mount

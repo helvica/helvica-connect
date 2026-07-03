@@ -11,11 +11,10 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useAuth } from '../contexts/AuthContext';
 
 import Sidebar from '../components/Automation/Sidebar';
 import { nodeTypes } from '../components/Automation/nodes/CustomNodes';
-
-const API_URL = 'http://localhost:3001/api';
 
 const initialNodes = [
   {
