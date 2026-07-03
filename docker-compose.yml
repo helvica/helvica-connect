@@ -24,6 +24,8 @@ services:
       - DB_USER=helvica
       - DB_PASS=helvicasecret
       - DB_NAME=helvicacrm
+    env_file:
+      - ./backend/.env
     restart: unless-stopped
     depends_on:
       db:
