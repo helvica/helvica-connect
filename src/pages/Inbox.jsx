@@ -682,7 +682,7 @@ export default function Inbox() {
               )}
             </div>
             {/* WhatsApp Input Area */}
-            <div className="px-2 py-2 md:px-4 md:py-3 bg-neutral-50 dark:bg-[#202C33] shrink-0 relative flex items-end gap-1 md:gap-3">
+            <div className="px-2 py-2 md:px-4 md:py-3 bg-neutral-50 dark:bg-[#202C33] shrink-0 relative flex items-end gap-2 md:gap-3">
               {/* Quick Replies Popup (moved logic to not clutter UI visually, but keeping it functional) */}
               {showQuickReplies && (
                 <div className="absolute bottom-full left-4 mb-2 w-80 max-w-full bg-white dark:bg-[#202C33] rounded-lg shadow-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden z-50">
@@ -713,13 +713,6 @@ export default function Inbox() {
                 </div>
               )}
               
-              <button type="button" onClick={() => setShowCatalogModal(true)} className="p-2 text-neutral-500 dark:text-[#8696A0] hover:bg-neutral-200 dark:hover:bg-[#2A3942] rounded-full transition-colors shrink-0">
-                <ShoppingBag className="w-5 h-5" />
-              </button>
-              <button type="button" onClick={() => fileInputRef.current?.click()} className="p-2 text-neutral-500 dark:text-[#8696A0] hover:bg-neutral-200 dark:hover:bg-[#2A3942] rounded-full transition-colors shrink-0">
-                <Plus className="w-6 h-6" />
-              </button>
-              
               <input 
                 type="file" 
                 ref={fileInputRef} 
@@ -728,9 +721,9 @@ export default function Inbox() {
               />
               
               
-              <div className="flex-1 bg-white dark:bg-[#2A3942] rounded-xl shadow-sm overflow-hidden border border-transparent dark:border-neutral-700/50 relative">
+              <div className="flex-1 bg-white dark:bg-[#2A3942] rounded-[24px] shadow-sm border border-transparent dark:border-neutral-700/50 flex flex-col relative overflow-hidden">
                 {replyingToMessage && (
-                  <div className="bg-neutral-100 dark:bg-black/20 p-2 border-l-4 border-emerald-500 flex justify-between items-start">
+                  <div className="bg-neutral-100 dark:bg-black/20 p-2 border-l-4 border-emerald-500 flex justify-between items-start mx-2 mt-2 rounded-t-lg">
                     <div>
                       <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">{replyingToMessage.sender === 'agent' ? 'You' : (selectedChat.contactName || selectedChat.contactPhone)}</p>
                       <p className="text-xs text-neutral-500 dark:text-neutral-400 line-clamp-1">
@@ -741,7 +734,7 @@ export default function Inbox() {
                   </div>
                 )}
                 {selectedFile && (
-                  <div className="bg-neutral-100 dark:bg-[#1D282F] p-3 border-b border-neutral-200 dark:border-neutral-700/50 flex justify-between items-center">
+                  <div className="bg-neutral-100 dark:bg-[#1D282F] p-3 border-b border-neutral-200 dark:border-neutral-700/50 flex justify-between items-center mx-2 mt-2 rounded-t-lg">
                     <div className="flex items-center gap-3 overflow-hidden">
                       <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded shrink-0">
                         <Paperclip className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
@@ -758,61 +751,76 @@ export default function Inbox() {
                 )}
                 
                 {/* AI Quick Actions */}
-                <div className="px-3 pt-2 pb-1 flex gap-2 overflow-x-auto no-scrollbar border-b border-neutral-100 dark:border-neutral-800">
+                <div className="px-3 pt-2 pb-0 flex gap-2 overflow-x-auto no-scrollbar">
                   <button 
                     onClick={() => handleCopilotDraft('greeting')}
                     disabled={isDrafting}
-                    className="flex items-center text-xs font-medium px-2.5 py-1.5 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:hover:bg-indigo-500/20 transition-colors whitespace-nowrap"
+                    className="flex items-center text-[11px] font-medium px-2 py-1 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:hover:bg-indigo-500/20 transition-colors whitespace-nowrap"
                   >
-                    <Wand2 className="w-3 h-3 mr-1.5" /> Suggest Greeting
+                    <Wand2 className="w-3 h-3 mr-1" /> Suggest Greeting
                   </button>
                   <button 
                     onClick={() => handleCopilotDraft('solution')}
                     disabled={isDrafting}
-                    className="flex items-center text-xs font-medium px-2.5 py-1.5 rounded-full bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20 transition-colors whitespace-nowrap"
+                    className="flex items-center text-[11px] font-medium px-2 py-1 rounded-full bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20 transition-colors whitespace-nowrap"
                   >
-                    <Wand2 className="w-3 h-3 mr-1.5" /> Suggest Solution
-                  </button>
-                  <button 
-                    onClick={() => handleCopilotDraft('apology')}
-                    disabled={isDrafting}
-                    className="flex items-center text-xs font-medium px-2.5 py-1.5 rounded-full bg-amber-50 text-amber-600 hover:bg-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:hover:bg-amber-500/20 transition-colors whitespace-nowrap"
-                  >
-                    <Wand2 className="w-3 h-3 mr-1.5" /> Suggest Apology
+                    <Wand2 className="w-3 h-3 mr-1" /> Suggest Solution
                   </button>
                 </div>
 
-                <div className="flex items-center min-h-[44px] px-2">
-                  <form onSubmit={handleSendMessage} className="flex-1 flex items-center h-full min-w-0">
+                <div className="flex items-end min-h-[44px] px-1 md:px-2 w-full pb-1">
+                  <button type="button" className="p-2.5 text-neutral-500 dark:text-[#8696A0] hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors shrink-0 mb-0.5">
+                    <Smile className="w-6 h-6" />
+                  </button>
+                  <form onSubmit={handleSendMessage} className="flex-1 flex items-center min-h-[44px] min-w-0">
                   <input
                     type="text"
-                    placeholder="Type a message"
+                    placeholder="Message"
                     value={inputValue}
                     onChange={handleTyping}
                     onKeyDown={handleKeyDown}
-                    className="w-full bg-transparent px-2 py-2 text-[15px] text-neutral-900 dark:text-[#E9EDEF] outline-none placeholder-neutral-500 dark:placeholder-[#8696A0]"
+                    className="w-full bg-transparent px-2 py-2.5 text-[15px] text-neutral-900 dark:text-[#E9EDEF] outline-none placeholder-neutral-500 dark:placeholder-[#8696A0]"
                     disabled={sendMessageMutation.isPending}
                   />
+                  </form>
+                  <button 
+                    type="button" 
+                    onClick={() => fileInputRef.current?.click()} 
+                    className="p-2.5 text-neutral-500 dark:text-[#8696A0] hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors shrink-0 mb-0.5"
+                  >
+                    <Paperclip className="w-6 h-6" />
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => setShowCatalogModal(true)} 
+                    className="p-2.5 text-neutral-500 dark:text-[#8696A0] hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors shrink-0 mb-0.5 md:hidden"
+                  >
+                    <ShoppingBag className="w-6 h-6" />
+                  </button>
                   <button 
                     type="button" 
                     onClick={handleCopilotDraft}
                     disabled={isDrafting}
-                    className="p-2 mr-1 text-indigo-500 dark:text-indigo-400 hover:text-indigo-600 transition-colors shrink-0"
+                    className="p-2.5 mr-1 text-indigo-500 dark:text-indigo-400 hover:text-indigo-600 transition-colors shrink-0 mb-0.5"
                     title="AI Auto-Draft Reply"
                   >
                     {isDrafting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5" />}
                   </button>
-                  {inputValue.trim() || selectedFile ? (
-                    <button type="submit" disabled={sendMessageMutation.isPending} className="p-2 text-neutral-500 dark:text-[#8696A0] hover:text-[#00A884] dark:hover:text-[#00A884] transition-colors shrink-0">
-                      <Send className="h-5 w-5" />
-                    </button>
-                  ) : (
-                    <button type="button" className="p-2 text-neutral-500 dark:text-[#8696A0] hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors shrink-0">
-                      <Mic className="w-6 h-6" />
-                    </button>
-                  )}
-                </form>
                 </div>
+              </div>
+
+              <div className="shrink-0 mb-[2px]">
+                <button 
+                  onClick={inputValue.trim() || selectedFile ? handleSendMessage : undefined}
+                  disabled={sendMessageMutation.isPending} 
+                  className="h-11 w-11 bg-[#00A884] rounded-full flex items-center justify-center text-white shadow-sm hover:bg-[#008f6f] transition-colors"
+                >
+                  {inputValue.trim() || selectedFile ? (
+                    <Send className="w-5 h-5 ml-0.5" />
+                  ) : (
+                    <Mic className="w-5 h-5" />
+                  )}
+                </button>
               </div>
             </div>
           </>
