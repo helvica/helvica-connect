@@ -57,8 +57,8 @@ export default function Automation() {
           const flow = res.data[0]; // Load first flow for now
           setFlowId(flow.id);
           setFlowName(flow.name);
-          setNodes(typeof flow.nodes === 'string' ? JSON.parse(flow.nodes) : flow.nodes);
-          setEdges(typeof flow.edges === 'string' ? JSON.parse(flow.edges) : flow.edges);
+          setNodes((typeof flow.nodes === 'string' ? JSON.parse(flow.nodes) : flow.nodes) || []);
+          setEdges((typeof flow.edges === 'string' ? JSON.parse(flow.edges) : flow.edges) || []);
         }
       })
       .catch(err => console.error("Failed to load flow", err));
