@@ -9,7 +9,9 @@ export default function Header({ setSidebarOpen }) {
 
   return (
     <>
-      <header className="flex h-16 shrink-0 items-center justify-between border-b border-neutral-200 bg-white px-4 md:px-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 transition-colors">
+      <header className="flex flex-col shrink-0 border-b border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-900 transition-colors">
+        <div className="h-[env(safe-area-inset-top)] w-full bg-white dark:bg-neutral-900"></div>
+        <div className="flex h-16 w-full items-center justify-between px-4 md:px-6">
       <div className="flex items-center">
         <button 
           className="mr-3 md:hidden p-1 -ml-1 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-white rounded-md"
@@ -35,7 +37,8 @@ export default function Header({ setSidebarOpen }) {
           </button>
         </div>
       </div>
-    </header>
+        </div>
+      </header>
 
       {/* Logout Confirmation Modal */}
       {showLogoutModal && (

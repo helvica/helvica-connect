@@ -32,7 +32,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       {/* Sidebar */}
       <div 
         className={clsx(
-          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-white text-neutral-600 border-r border-neutral-200 dark:bg-black dark:text-neutral-300 dark:border-neutral-800 transition-transform duration-300 ease-in-out md:relative md:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-white text-neutral-600 border-r border-neutral-200 dark:bg-black dark:text-neutral-300 dark:border-neutral-800 transition-transform duration-300 ease-in-out md:relative md:translate-x-0 pt-[env(safe-area-inset-top)] md:pt-0",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >

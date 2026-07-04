@@ -690,7 +690,7 @@ export default function Inbox() {
               )}
             </div>
             {/* WhatsApp Input Area */}
-            <div className="px-2 py-2 md:px-4 md:py-3 bg-neutral-50 dark:bg-[#202C33] shrink-0 relative flex items-end gap-2 md:gap-3">
+            <div className="px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] md:px-4 md:pt-3 md:pb-[calc(0.75rem+env(safe-area-inset-bottom))] bg-neutral-50 dark:bg-[#202C33] shrink-0 relative flex items-end gap-2 md:gap-3">
               {/* Quick Replies Popup (moved logic to not clutter UI visually, but keeping it functional) */}
               {showQuickReplies && (
                 <div className="absolute bottom-full left-4 mb-2 w-80 max-w-full bg-white dark:bg-[#202C33] rounded-lg shadow-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden z-50">
