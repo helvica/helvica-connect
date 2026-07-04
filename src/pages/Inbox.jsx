@@ -682,7 +682,7 @@ export default function Inbox() {
               )}
             </div>
             {/* WhatsApp Input Area */}
-            <div className="px-4 py-3 bg-neutral-50 dark:bg-[#202C33] shrink-0 relative flex items-end gap-3">
+            <div className="px-2 py-2 md:px-4 md:py-3 bg-neutral-50 dark:bg-[#202C33] shrink-0 relative flex items-end gap-1 md:gap-3">
               {/* Quick Replies Popup (moved logic to not clutter UI visually, but keeping it functional) */}
               {showQuickReplies && (
                 <div className="absolute bottom-full left-4 mb-2 w-80 max-w-full bg-white dark:bg-[#202C33] rounded-lg shadow-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden z-50">
@@ -783,10 +783,7 @@ export default function Inbox() {
                 </div>
 
                 <div className="flex items-center min-h-[44px] px-2">
-                  <button type="button" className="p-2 text-neutral-500 dark:text-[#8696A0] hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors shrink-0">
-                    <Smile className="w-6 h-6" />
-                  </button>
-                  <form onSubmit={handleSendMessage} className="flex-1 flex items-center h-full">
+                  <form onSubmit={handleSendMessage} className="flex-1 flex items-center h-full min-w-0">
                   <input
                     type="text"
                     placeholder="Type a message"

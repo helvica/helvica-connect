@@ -195,7 +195,7 @@ export default function Templates() {
       <Toaster position="top-right" />
       
       {/* Banner */}
-      <div className="bg-gradient-to-r from-emerald-800 to-emerald-950 px-8 py-6 flex items-center justify-between shrink-0">
+      <div className="bg-gradient-to-r from-emerald-800 to-emerald-950 px-6 py-6 md:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shrink-0">
         <div className="flex items-center gap-4">
           <div className="bg-emerald-500/20 p-2 rounded-lg text-emerald-400 border border-emerald-500/30 font-bold text-xs uppercase tracking-wider">
             Try AI
@@ -212,11 +212,11 @@ export default function Templates() {
         </button>
       </div>
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
         {/* Left Sidebar Filters */}
-        <div className="w-64 bg-white dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-800 p-6 flex flex-col shrink-0 overflow-y-auto">
-          <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-4">Category</h3>
-          <div className="space-y-1">
+        <div className="w-full md:w-64 bg-white dark:bg-neutral-900 border-b md:border-b-0 md:border-r border-neutral-200 dark:border-neutral-800 p-4 md:p-6 flex flex-col shrink-0 overflow-x-auto md:overflow-y-auto">
+          <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2 md:mb-4 shrink-0">Category</h3>
+          <div className="flex flex-row md:flex-col space-x-2 md:space-x-0 md:space-y-1 min-w-max pb-2 md:pb-0">
             {['All', 'MARKETING', 'UTILITY', 'AUTHENTICATION'].map(cat => (
               <button
                 key={cat}
