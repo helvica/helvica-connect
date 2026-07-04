@@ -43,6 +43,7 @@ export default function Automation() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const { API_URL } = useAuth();
   
   const [selectedNode, setSelectedNode] = useState(null);
   const [flowId, setFlowId] = useState('flow_1');
