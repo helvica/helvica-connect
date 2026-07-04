@@ -497,8 +497,6 @@ export default function Inbox() {
           ))}
         </div>
       </div>
-        </div>
-      </div>
       <div className={clsx("flex-1 flex-col min-w-0 bg-[#EFEAE2] dark:bg-[#111B21]", selectedChat ? "flex" : "hidden md:flex")}>
         {selectedChat ? (
           <>
@@ -538,6 +536,7 @@ export default function Inbox() {
                     <h2 className="text-sm font-semibold text-neutral-900 dark:text-white">{selectedChat.contactName || selectedChat.contactPhone}</h2>
                     <p className="text-xs text-neutral-500 dark:text-neutral-400">{selectedChat.contactPhone}</p>
                   </div>
+                </div>
                 </div>
               )}
               <div className="flex items-center gap-3 shrink-0">
