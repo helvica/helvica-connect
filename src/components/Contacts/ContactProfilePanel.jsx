@@ -28,15 +28,18 @@ export default function ContactProfilePanel({ contact, messages = [], onClose, o
       >
         {/* Modal Container */}
         <div 
-          className="bg-white dark:bg-[#202C33] rounded-xl shadow-2xl flex overflow-hidden flex-row w-full max-w-3xl h-[600px] border border-neutral-200 dark:border-[#2A3942]"
+          className="bg-white dark:bg-[#202C33] rounded-xl shadow-2xl flex overflow-hidden flex-col md:flex-row w-full max-w-3xl h-[85vh] md:h-[600px] border border-neutral-200 dark:border-[#2A3942]"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Left Sidebar */}
-          <div className="w-[280px] bg-neutral-50 dark:bg-[#111B21] border-r border-neutral-200 dark:border-[#202C33] flex flex-col shrink-0">
-            <div className="p-5">
-              <h2 className="text-neutral-900 dark:text-[#E9EDEF] text-[19px] font-semibold">Contact</h2>
+          <div className="w-full md:w-[280px] bg-neutral-50 dark:bg-[#111B21] border-b md:border-b-0 md:border-r border-neutral-200 dark:border-[#202C33] flex flex-col shrink-0">
+            <div className="p-3 md:p-5 flex justify-between items-center">
+              <h2 className="text-neutral-900 dark:text-[#E9EDEF] text-base md:text-[19px] font-semibold">Contact</h2>
+              <button onClick={onClose} className="md:hidden text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 p-1">
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            <div className="flex-1 flex flex-col px-3 gap-1 overflow-y-auto">
+            <div className="flex flex-row md:flex-col px-3 gap-2 md:gap-1 overflow-x-auto md:overflow-y-auto pb-3 md:pb-0 hide-scrollbar">
               {tabs.map(tab => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
@@ -45,12 +48,12 @@ export default function ContactProfilePanel({ contact, messages = [], onClose, o
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={clsx(
-                      "flex items-center gap-4 px-4 py-3 rounded-xl transition-colors w-full text-left",
+                      "flex items-center gap-2 md:gap-4 px-3 md:px-4 py-2 md:py-3 rounded-xl transition-colors whitespace-nowrap md:w-full text-left",
                       isActive ? "bg-neutral-200 dark:bg-[#2A3942]" : "hover:bg-neutral-100 dark:hover:bg-[#202C33]"
                     )}
                   >
-                    <Icon className={clsx("w-5 h-5", isActive ? "text-emerald-600 dark:text-[#00A884]" : "text-neutral-500 dark:text-[#8696A0]")} />
-                    <span className={clsx("text-sm", isActive ? "text-neutral-900 dark:text-[#E9EDEF]" : "text-neutral-700 dark:text-[#D1D7DB]")}>{tab.label}</span>
+                    <Icon className={clsx("w-4 h-4 md:w-5 md:h-5 shrink-0", isActive ? "text-emerald-600 dark:text-[#00A884]" : "text-neutral-500 dark:text-[#8696A0]")} />
+                    <span className={clsx("text-xs md:text-sm font-medium", isActive ? "text-neutral-900 dark:text-[#E9EDEF]" : "text-neutral-700 dark:text-[#D1D7DB]")}>{tab.label}</span>
                   </button>
                 );
               })}
@@ -198,8 +201,8 @@ export default function ContactProfilePanel({ contact, messages = [], onClose, o
               </div>
             )}
 
-            {/* Bottom Done Button */}
-            <div className="absolute bottom-4 right-4">
+            {/* Bottom Done Button (Desktop only) */}
+            <div className="absolute bottom-4 right-4 hidden md:block">
               <button 
                 onClick={onClose}
                 className="bg-emerald-600 hover:bg-emerald-700 dark:bg-[#00A884] dark:hover:bg-[#029071] text-white px-6 py-2 rounded-full font-medium transition-colors shadow-md"

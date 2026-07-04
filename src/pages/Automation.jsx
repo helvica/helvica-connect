@@ -145,17 +145,17 @@ export default function Automation() {
 
   return (
     <div className="flex flex-col h-full bg-[#EFEAE2] dark:bg-[#111B21]">
-      <div className="px-8 py-6 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800 shrink-0">
-        <div className="flex items-center justify-between">
+      <div className="px-4 py-4 md:px-8 md:py-6 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800 shrink-0">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">{flowName}</h1>
-            <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">Design chatbots and routing rules visually.</p>
+            <h1 className="text-xl md:text-2xl font-bold text-neutral-900 dark:text-white">{flowName}</h1>
+            <p className="mt-1 text-xs md:text-sm text-neutral-500 dark:text-neutral-400">Design chatbots and routing rules visually.</p>
           </div>
-          <button onClick={saveFlow} className="btn-primary">Save & Deploy Bot</button>
+          <button onClick={saveFlow} className="btn-primary w-full md:w-auto">Save & Deploy Bot</button>
         </div>
       </div>
       
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         <ReactFlowProvider>
           <Sidebar />
           <div className="flex-1 h-full relative" ref={reactFlowWrapper}>

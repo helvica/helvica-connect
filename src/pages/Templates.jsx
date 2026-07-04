@@ -194,35 +194,18 @@ export default function Templates() {
     <div className="flex flex-col h-full bg-neutral-50 dark:bg-black">
       <Toaster position="top-right" />
       
-      {/* Banner */}
-      <div className="bg-gradient-to-r from-emerald-800 to-emerald-950 px-6 py-6 md:px-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shrink-0">
-        <div className="flex items-center gap-4">
-          <div className="bg-emerald-500/20 p-2 rounded-lg text-emerald-400 border border-emerald-500/30 font-bold text-xs uppercase tracking-wider">
-            Try AI
-          </div>
-          <div>
-            <h2 className="text-white font-semibold text-lg flex items-center gap-2">
-              <Activity className="w-5 h-5 text-emerald-400" /> Introducing AI-Flows.
-            </h2>
-            <p className="text-emerald-100/80 text-sm mt-0.5">Instantly create smart, high-converting WhatsApp flows with AI.</p>
-          </div>
-        </div>
-        <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2.5 rounded-lg font-semibold shadow-lg shadow-emerald-500/20 transition-all">
-          Generate flow with AI
-        </button>
-      </div>
 
       <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
         {/* Left Sidebar Filters */}
-        <div className="w-full md:w-64 bg-white dark:bg-neutral-900 border-b md:border-b-0 md:border-r border-neutral-200 dark:border-neutral-800 p-4 md:p-6 flex flex-col shrink-0 overflow-x-auto md:overflow-y-auto">
-          <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2 md:mb-4 shrink-0">Category</h3>
-          <div className="flex flex-row md:flex-col space-x-2 md:space-x-0 md:space-y-1 min-w-max pb-2 md:pb-0">
+        <div className="w-full md:w-56 bg-white dark:bg-neutral-900 border-b md:border-b-0 md:border-r border-neutral-200 dark:border-neutral-800 p-3 md:p-6 flex flex-col shrink-0 overflow-x-auto md:overflow-y-auto">
+          <h3 className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-2 md:mb-4 shrink-0">Category</h3>
+          <div className="flex flex-row md:flex-col space-x-1.5 md:space-x-0 md:space-y-1 min-w-max pb-1 md:pb-0">
             {['All', 'MARKETING', 'UTILITY', 'AUTHENTICATION'].map(cat => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className={clsx(
-                  "w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                  "w-full text-left px-3 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-medium transition-colors",
                   activeCategory === cat 
                     ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" 
                     : "text-neutral-600 hover:bg-neutral-50 dark:text-neutral-400 dark:hover:bg-neutral-800/50"
@@ -238,28 +221,28 @@ export default function Templates() {
         <div className="flex-1 flex flex-col overflow-hidden">
           <div className="p-4 md:p-8 pb-4">
             {/* Header & Search */}
-            <div className="flex items-center justify-between gap-4 mb-6">
-              <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 -tranneutral-y-1/2 h-4 w-4 text-neutral-400" />
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mb-5">
+              <div className="relative w-full max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
                 <input 
                   type="text" 
-                  placeholder="Search templates (status, name etc.)" 
+                  placeholder="Search templates..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="input-field pl-9 bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800"
+                  className="input-field pl-9 bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800 text-sm py-1.5"
                 />
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-2 w-full md:w-auto">
                 <button 
                   onClick={() => syncMutation.mutate()} 
                   disabled={syncMutation.isPending}
-                  className="btn-secondary flex items-center bg-white dark:bg-neutral-900 shadow-sm"
+                  className="btn-secondary flex-1 md:flex-none items-center bg-white dark:bg-neutral-900 shadow-sm text-xs px-3 py-1.5"
                 >
-                  <RefreshCw className={clsx("w-4 h-4 mr-2", syncMutation.isPending && "animate-spin")} /> 
-                  Sync Status
+                  <RefreshCw className={clsx("w-3.5 h-3.5 mr-1.5", syncMutation.isPending && "animate-spin")} /> 
+                  Sync
                 </button>
-                <button onClick={() => setIsBuilding(true)} className="btn-primary shadow-lg shadow-indigo-500/20">
-                  <Plus className="w-4 h-4 mr-2" /> New Template
+                <button onClick={() => setIsBuilding(true)} className="btn-primary flex-1 md:flex-none shadow-lg shadow-indigo-500/20 text-xs px-3 py-1.5">
+                  <Plus className="w-3.5 h-3.5 mr-1.5" /> New
                 </button>
               </div>
             </div>

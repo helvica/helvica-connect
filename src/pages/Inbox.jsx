@@ -6,6 +6,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import { useAuth } from '../contexts/AuthContext';
 import clsx from 'clsx';
+import toast from 'react-hot-toast';
 import ContactProfilePanel from '../components/Contacts/ContactProfilePanel';
 
 const WhatsAppAudioPlayer = ({ src, sender }) => {
@@ -116,6 +117,7 @@ export default function Inbox() {
   const [replyingToMessage, setReplyingToMessage] = useState(null);
   const [isChatSearchOpen, setIsChatSearchOpen] = useState(false);
   const [chatSearchQuery, setChatSearchQuery] = useState('');
+  const [showHeaderMenu, setShowHeaderMenu] = useState(false);
 
   const QUICK_REPLIES = [
     { command: '/hello', text: 'Hello! 👋 Thanks for getting in touch with Helvica. How can we assist you today?' },
@@ -539,17 +541,23 @@ export default function Inbox() {
                 </div>
                 </div>
               )}
-              <div className="flex items-center gap-3 shrink-0">
-                <select
-                  value={selectedChat.status || 'Open'}
-                  onChange={handleStatusChange}
-                  className="bg-neutral-100 dark:bg-[#2A3942] text-sm text-neutral-700 dark:text-[#D1D7DB] rounded-md px-2 py-1 outline-none cursor-pointer border border-transparent focus:border-emerald-500 transition-colors mr-2"
-                >
-                  <option value="Open">Open</option>
-                  <option value="Pending">Pending</option>
-                  <option value="Solved">Solved</option>
-                </select>
+              <div className="flex items-center gap-1 md:gap-3 shrink-0 relative">
+                <button className="p-2 text-neutral-500 dark:text-[#AEBAC1] hover:bg-neutral-200 dark:hover:bg-[#2A3942] rounded-full transition-colors hidden md:block"><Video className="h-5 w-5" /></button>
+                <button className="p-2 text-neutral-500 dark:text-[#AEBAC1] hover:bg-neutral-200 dark:hover:bg-[#2A3942] rounded-full transition-colors hidden md:block"><Phone className="h-5 w-5" /></button>
                 <button onClick={() => setIsChatSearchOpen(!isChatSearchOpen)} className="p-2 text-neutral-500 dark:text-[#AEBAC1] hover:bg-neutral-200 dark:hover:bg-[#2A3942] rounded-full transition-colors"><Search className="h-5 w-5" /></button>
+                <button onClick={() => setShowHeaderMenu(!showHeaderMenu)} className="p-2 text-neutral-500 dark:text-[#AEBAC1] hover:bg-neutral-200 dark:hover:bg-[#2A3942] rounded-full transition-colors"><MoreVertical className="h-5 w-5" /></button>
+                
+                {showHeaderMenu && (
+                  <div className="absolute top-full right-0 mt-2 bg-white dark:bg-[#202C33] rounded-lg shadow-xl border border-neutral-100 dark:border-neutral-700 py-2 w-48 z-50">
+                    <div className="px-4 py-2 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Status</div>
+                    <button onClick={() => { handleStatusChange({target: {value: 'Open'}}); setShowHeaderMenu(false); }} className={clsx("w-full text-left px-4 py-2 text-sm hover:bg-neutral-50 dark:hover:bg-[#2A3942]", selectedChat.status === 'Open' ? "text-emerald-600 dark:text-emerald-400 font-medium" : "text-neutral-700 dark:text-neutral-200")}>Open</button>
+                    <button onClick={() => { handleStatusChange({target: {value: 'Pending'}}); setShowHeaderMenu(false); }} className={clsx("w-full text-left px-4 py-2 text-sm hover:bg-neutral-50 dark:hover:bg-[#2A3942]", selectedChat.status === 'Pending' ? "text-amber-600 dark:text-amber-400 font-medium" : "text-neutral-700 dark:text-neutral-200")}>Pending</button>
+                    <button onClick={() => { handleStatusChange({target: {value: 'Solved'}}); setShowHeaderMenu(false); }} className={clsx("w-full text-left px-4 py-2 text-sm hover:bg-neutral-50 dark:hover:bg-[#2A3942]", selectedChat.status === 'Solved' ? "text-neutral-900 dark:text-white font-medium" : "text-neutral-700 dark:text-neutral-200")}>Solved</button>
+                    <div className="border-t border-neutral-100 dark:border-neutral-700 my-1"></div>
+                    <button onClick={() => { setShowProfilePanel(true); setShowHeaderMenu(false); }} className="w-full text-left px-4 py-2 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-[#2A3942]">Contact Info</button>
+                    <button onClick={() => setShowHeaderMenu(false)} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-neutral-50 dark:hover:bg-[#2A3942] md:hidden">Close Menu</button>
+                  </div>
+                )}
               </div>
             </div>
             
@@ -768,9 +776,15 @@ export default function Inbox() {
                   </button>
                 </div>
 
-                <div className="flex items-end min-h-[44px] px-1 md:px-2 w-full pb-1">
-                  <button type="button" className="p-2.5 text-neutral-500 dark:text-[#8696A0] hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors shrink-0 mb-0.5">
-                    <Smile className="w-6 h-6" />
+                <div className="flex items-end min-h-[44px] px-1 md:px-2 w-full pb-1 relative">
+                  <button 
+                    type="button" 
+                    onClick={handleCopilotDraft}
+                    disabled={isDrafting}
+                    className="p-2.5 text-indigo-500 dark:text-indigo-400 hover:text-indigo-600 transition-colors shrink-0 mb-0.5"
+                    title="AI Auto-Draft Reply"
+                  >
+                    {isDrafting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-6 h-6" />}
                   </button>
                   <form onSubmit={handleSendMessage} className="flex-1 flex items-center min-h-[44px] min-w-0">
                   <input
@@ -793,33 +807,20 @@ export default function Inbox() {
                   <button 
                     type="button" 
                     onClick={() => setShowCatalogModal(true)} 
-                    className="p-2.5 text-neutral-500 dark:text-[#8696A0] hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors shrink-0 mb-0.5 md:hidden"
+                    className="p-2.5 text-neutral-500 dark:text-[#8696A0] hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors shrink-0 mb-0.5 mr-1"
                   >
                     <ShoppingBag className="w-6 h-6" />
-                  </button>
-                  <button 
-                    type="button" 
-                    onClick={handleCopilotDraft}
-                    disabled={isDrafting}
-                    className="p-2.5 mr-1 text-indigo-500 dark:text-indigo-400 hover:text-indigo-600 transition-colors shrink-0 mb-0.5"
-                    title="AI Auto-Draft Reply"
-                  >
-                    {isDrafting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5" />}
                   </button>
                 </div>
               </div>
 
               <div className="shrink-0 mb-[2px]">
                 <button 
-                  onClick={inputValue.trim() || selectedFile ? handleSendMessage : undefined}
-                  disabled={sendMessageMutation.isPending} 
-                  className="h-11 w-11 bg-[#00A884] rounded-full flex items-center justify-center text-white shadow-sm hover:bg-[#008f6f] transition-colors"
+                  onClick={handleSendMessage}
+                  disabled={sendMessageMutation.isPending || (!inputValue.trim() && !selectedFile)} 
+                  className="h-11 w-11 bg-[#00A884] rounded-full flex items-center justify-center text-white shadow-sm hover:bg-[#008f6f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {inputValue.trim() || selectedFile ? (
-                    <Send className="w-5 h-5 ml-0.5" />
-                  ) : (
-                    <Mic className="w-5 h-5" />
-                  )}
+                  <Send className="w-5 h-5 ml-0.5" />
                 </button>
               </div>
             </div>
