@@ -10,8 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  // Use relative path for web, and fully qualified domain for native mobile apps
-  const API_URL = Capacitor.isNativePlatform() 
+  // Use relative path for web production, and fully qualified domain for native apps & local dev
+  const API_URL = Capacitor.isNativePlatform() || import.meta.env.DEV
     ? 'https://connect.helvica.in/api' 
     : '/api';
 
