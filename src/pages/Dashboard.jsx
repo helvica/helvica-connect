@@ -44,7 +44,7 @@ export default function Dashboard() {
 
   if (isLoading || !analytics) {
     return (
-      <div className="p-8 h-full flex flex-col justify-center items-center bg-neutral-50 dark:bg-black">
+      <div className="p-4 md:p-8 h-full flex flex-col justify-center items-center bg-neutral-50 dark:bg-black">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
         <p className="mt-4 text-neutral-500">Loading your dashboard...</p>
       </div>
@@ -54,7 +54,7 @@ export default function Dashboard() {
   const { topline, revenueChart, agentPerformance, recentActivity } = analytics;
 
   return (
-    <div className="p-8 max-w-7xl mx-auto h-full flex flex-col overflow-y-auto">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto h-full flex flex-col overflow-y-auto">
       <div className="mb-8 flex justify-between items-end">
         <div>
           <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">Good morning, {currentUser?.name?.split(' ')[0]} 👋</h1>
@@ -171,16 +171,16 @@ export default function Dashboard() {
             <table className="w-full text-left border-collapse">
                <thead>
                   <tr className="border-b border-neutral-200 dark:border-neutral-800 text-xs uppercase text-neutral-500 dark:text-neutral-400">
-                     <th className="pb-3 font-medium">Agent</th>
-                     <th className="pb-3 font-medium text-right">Avg Resolution Time</th>
-                     <th className="pb-3 font-medium text-right">Tickets Resolved</th>
-                     <th className="pb-3 font-medium text-right">Efficiency Score</th>
+                     <th className="whitespace-nowrap pb-3 font-medium">Agent</th>
+                     <th className="whitespace-nowrap pb-3 font-medium text-right">Avg Resolution Time</th>
+                     <th className="whitespace-nowrap pb-3 font-medium text-right">Tickets Resolved</th>
+                     <th className="whitespace-nowrap pb-3 font-medium text-right">Efficiency Score</th>
                   </tr>
                </thead>
                <tbody className="text-sm">
                   {agentPerformance.map((agent, index) => (
                      <tr key={index} className="border-b border-neutral-100 dark:border-neutral-800/50 last:border-0 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
-                        <td className="py-4">
+                        <td className="whitespace-nowrap py-4">
                            <div className="flex items-center gap-3">
                               <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-700 dark:text-indigo-300 font-bold">
                                  {agent.name.charAt(0)}
@@ -188,16 +188,16 @@ export default function Dashboard() {
                               <span className="font-medium text-neutral-900 dark:text-neutral-200">{agent.name}</span>
                            </div>
                         </td>
-                        <td className="py-4 text-right font-medium text-neutral-600 dark:text-neutral-300">
+                        <td className="whitespace-nowrap py-4 text-right font-medium text-neutral-600 dark:text-neutral-300">
                            <div className="flex items-center justify-end gap-1">
                               <Clock className="w-3.5 h-3.5 text-neutral-400" />
                               {agent.resolutionTime}
                            </div>
                         </td>
-                        <td className="py-4 text-right font-bold text-emerald-600 dark:text-emerald-400">
+                        <td className="whitespace-nowrap py-4 text-right font-bold text-emerald-600 dark:text-emerald-400">
                            {agent.ticketsResolved}
                         </td>
-                        <td className="py-4 text-right">
+                        <td className="whitespace-nowrap py-4 text-right">
                            <div className="w-full max-w-[120px] ml-auto h-2 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">
                               <div 
                                  className="h-full bg-indigo-500 rounded-full" 

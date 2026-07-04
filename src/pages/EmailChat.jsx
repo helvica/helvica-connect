@@ -32,7 +32,7 @@ export default function EmailChat() {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-neutral-500">
+        <div className="flex-1 flex flex-col items-center justify-center p-4 md:p-8 text-center text-neutral-500">
           <div className="h-12 w-12 rounded-full bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center mb-4">
             <Inbox className="h-6 w-6 text-neutral-400" />
           </div>
@@ -43,7 +43,7 @@ export default function EmailChat() {
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col bg-white dark:bg-neutral-900">
-        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+        <div className="flex-1 flex flex-col items-center justify-center p-4 md:p-8 text-center">
           <div className="h-16 w-16 rounded-full bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center mb-6">
             <Mail className="h-8 w-8 text-indigo-500" />
           </div>

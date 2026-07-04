@@ -103,7 +103,7 @@ export default function Agents() {
   );
 
   return (
-    <div className="p-8 h-full flex flex-col bg-neutral-50 dark:bg-black">
+    <div className="p-4 md:p-8 h-full flex flex-col bg-neutral-50 dark:bg-black">
       <Toaster position="top-right" />
       
       {/* Header */}
@@ -138,10 +138,10 @@ export default function Agents() {
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-neutral-500 uppercase bg-neutral-50 dark:bg-neutral-800/50 dark:text-neutral-400 border-b border-neutral-200 dark:border-neutral-800 sticky top-0 z-10">
               <tr>
-                <th className="px-6 py-4 font-semibold">Agent Details</th>
-                <th className="px-6 py-4 font-semibold">Role</th>
-                <th className="px-6 py-4 font-semibold">Status</th>
-                <th className="px-6 py-4 font-semibold text-right">Actions</th>
+                <th className="whitespace-nowrap px-6 py-4 font-semibold">Agent Details</th>
+                <th className="whitespace-nowrap px-6 py-4 font-semibold">Role</th>
+                <th className="whitespace-nowrap px-6 py-4 font-semibold">Status</th>
+                <th className="whitespace-nowrap px-6 py-4 font-semibold text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
@@ -152,7 +152,7 @@ export default function Agents() {
               ) : (
                 filteredAgents.map((agent) => (
                   <tr key={agent.id} className="border-b border-neutral-100 dark:border-neutral-800/50 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
-                    <td className="px-6 py-4">
+                    <td className="whitespace-nowrap px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="h-10 w-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-lg">
                           {agent.name.charAt(0).toUpperCase()}
@@ -165,13 +165,13 @@ export default function Agents() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="whitespace-nowrap px-6 py-4">
                       <div className="flex items-center gap-1.5 text-neutral-700 dark:text-neutral-300">
                         {agent.role === 'Admin' ? <Shield className="w-4 h-4 text-emerald-500" /> : <User className="w-4 h-4 text-blue-500" />}
                         {agent.role}
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="whitespace-nowrap px-6 py-4">
                       <span className={clsx(
                         "inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full",
                         agent.status === 'Active' 
@@ -182,7 +182,7 @@ export default function Agents() {
                         {agent.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="whitespace-nowrap px-6 py-4">
                       <div className="flex items-center justify-end gap-2">
                         <button onClick={() => openModalForEdit(agent)} className="p-2 text-neutral-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
                           <Edit2 className="w-4 h-4" />

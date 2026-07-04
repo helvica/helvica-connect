@@ -126,23 +126,23 @@ export default function Settings() {
   ];
 
   return (
-    <div className="p-8 max-w-6xl mx-auto h-full flex flex-col">
+    <div className="p-4 md:p-4 md:p-8 max-w-6xl mx-auto h-full flex flex-col">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">Settings</h1>
         <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">Manage your account and platform configurations.</p>
       </div>
 
-      <div className="flex flex-1 overflow-hidden bg-white dark:bg-neutral-900 rounded-2xl shadow-sm border border-neutral-200 dark:border-neutral-800">
+      <div className="flex flex-col md:flex-row flex-1 overflow-hidden bg-white dark:bg-neutral-900 rounded-2xl shadow-sm border border-neutral-200 dark:border-neutral-800">
         
         {/* Settings Sidebar */}
-        <div className="w-64 border-r border-neutral-200 dark:border-neutral-800 p-6 bg-neutral-50/50 dark:bg-neutral-900/50">
-          <nav className="space-y-1">
+        <div className="w-full md:w-64 border-b md:border-b-0 md:border-r border-neutral-200 dark:border-neutral-800 p-4 md:p-6 bg-neutral-50/50 dark:bg-neutral-900/50 flex-shrink-0">
+          <nav className="flex overflow-x-auto md:space-y-1 md:flex-col pb-2 md:pb-0 space-x-2 md:space-x-0 no-scrollbar">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={clsx(
-                  'w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors',
+                  'w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors whitespace-nowrap md:whitespace-normal',
                   activeTab === tab.id
                     ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400'
                     : 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white'
@@ -159,7 +159,7 @@ export default function Settings() {
         </div>
 
         {/* Settings Content */}
-        <div className="flex-1 p-8 overflow-y-auto">
+        <div className="flex-1 p-4 md:p-4 md:p-8 overflow-y-auto w-full min-w-0">
           {activeTab === 'api' && (
             <div className="max-w-2xl">
               <div className="flex items-center mb-6">
@@ -251,7 +251,7 @@ export default function Settings() {
               </div>
 
               {aiLoading ? (
-                <div className="flex items-center justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-neutral-400" /></div>
+                <div className="flex items-center justify-center p-4 md:p-4 md:p-8"><Loader2 className="w-6 h-6 animate-spin text-neutral-400" /></div>
               ) : (
                 <div className="space-y-6">
                   <div>

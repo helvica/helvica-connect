@@ -30,7 +30,7 @@ export default function Login() {
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-br from-indigo-100/40 to-purple-100/40 dark:from-indigo-900/20 dark:to-purple-900/20 blur-[120px] pointer-events-none transition-all duration-1000"></div>
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-tl from-emerald-100/30 to-teal-100/30 dark:from-emerald-900/20 dark:to-teal-900/20 blur-[120px] pointer-events-none transition-all duration-1000"></div>
 
-      <div className="w-full max-w-[420px] p-8 sm:p-10 z-10 relative">
+      <div className="w-full max-w-[420px] p-4 md:p-8 sm:p-10 z-10 relative">
         <div className="w-full transition-all duration-500">
           
           <h2 className="text-center text-[28px] font-semibold tracking-tight text-neutral-900 dark:text-[#f5f5f7] mb-2 leading-tight font-['Inter',sans-serif]">

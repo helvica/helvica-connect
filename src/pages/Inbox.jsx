@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, Send, Paperclip, CheckCheck, User, MessageCircle, Wand2, Loader2, ShoppingBag, X, Users, Edit, Plus, Smile, Mic, MoreVertical, ChevronDown, Reply, Star, Pin, Forward, Copy, Info, Trash2, CheckSquare, FileText, Play, Pause } from 'lucide-react';
+import { Search, MoreVertical, Paperclip, Send, Smile, Phone, Video, Info, FileText, Image as ImageIcon, Check, CheckCheck, Loader2, Bot, BotMessageSquare, Sparkles, Wand2, RefreshCcw, Tag, Copy, X, Store, Edit, ChevronLeft, User, MessageCircle, ShoppingBag, Users, Plus, Mic, Reply, Star, Pin, Forward, ChevronDown, Play, Pause } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
@@ -282,7 +282,6 @@ export default function Inbox() {
     },
     onError: (error) => {
       console.error("Failed to send message:", error);
-      toast.error(error.response?.data?.error || error.message || 'Failed to send message');
     }
   });
 
@@ -290,7 +289,6 @@ export default function Inbox() {
     // Optimistically update the UI to remove the message
     queryClient.setQueryData(['messages', selectedChat.id], old => old.filter(m => m.id !== messageId));
     setActiveMessageMenu(null);
-    toast.success('Message deleted');
   };
 
   const handleReplyMessage = (msg) => {
@@ -308,7 +306,6 @@ export default function Inbox() {
     try {
       await axios.put(`${API_URL}/chats/${selectedChat.id}/messages/${messageId}/react`, { emoji });
     } catch (err) {
-      toast.error('Failed to send reaction to WhatsApp');
       queryClient.invalidateQueries({ queryKey: ['messages', selectedChat.id] });
     }
   };
@@ -408,7 +405,6 @@ export default function Inbox() {
       }
     } catch (err) {
       console.error("Failed to generate draft:", err);
-      toast.error('Failed to generate AI reply.');
     } finally {
       setIsDrafting(false);
     }
@@ -449,8 +445,8 @@ export default function Inbox() {
   });
 
   return (
-    <div className="flex h-full overflow-hidden bg-white dark:bg-[#111B21]">
-      <div className="w-80 flex-shrink-0 border-r border-neutral-200 dark:border-neutral-800 flex flex-col bg-white dark:bg-[#111B21]">
+    <div className="flex h-full overflow-hidden bg-white dark:bg-[#111B21] relative">
+      <div className={clsx("w-full md:w-80 flex-shrink-0 border-r border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#111B21]", selectedChat ? "hidden md:flex md:flex-col" : "flex flex-col")}>
         
         {/* WhatsApp Sidebar Header */}
         <div className="h-16 px-4 flex justify-between items-center bg-neutral-50 dark:bg-[#202C33] shrink-0 border-b border-neutral-200 dark:border-neutral-800">
@@ -501,7 +497,9 @@ export default function Inbox() {
           ))}
         </div>
       </div>
-      <div className="flex-1 flex flex-col min-w-0 bg-[#EFEAE2] dark:bg-[#111B21]">
+        </div>
+      </div>
+      <div className={clsx("flex-1 flex-col min-w-0 bg-[#EFEAE2] dark:bg-[#111B21]", selectedChat ? "flex" : "hidden md:flex")}>
         {selectedChat ? (
           <>
             {/* WhatsApp Main Chat Header */}
@@ -522,10 +520,17 @@ export default function Inbox() {
                   </button>
                 </div>
               ) : (
-                <div 
-                  className="flex items-center gap-3 cursor-pointer hover:bg-neutral-200 dark:hover:bg-[#2A3942] p-1 -ml-1 rounded-md transition-colors"
-                  onClick={() => setShowProfilePanel(!showProfilePanel)}
-                >
+                <div className="flex items-center gap-2">
+                  <button 
+                    onClick={() => setSelectedChat(null)} 
+                    className="md:hidden p-2 -ml-2 text-neutral-500 hover:text-neutral-700 dark:text-[#AEBAC1] dark:hover:text-white"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                  <div 
+                    className="flex items-center gap-3 cursor-pointer hover:bg-neutral-200 dark:hover:bg-[#2A3942] p-1 rounded-md transition-colors"
+                    onClick={() => setShowProfilePanel(!showProfilePanel)}
+                  >
                   <div className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold dark:bg-indigo-900/50 dark:text-indigo-400">
                     {selectedChat.contactName?.charAt(0) || '?'}
                   </div>

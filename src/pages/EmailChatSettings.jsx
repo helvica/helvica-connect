@@ -23,7 +23,7 @@ export default function EmailChatSettings() {
 
   return (
     <div className="flex h-full flex-col overflow-y-auto bg-neutral-50 dark:bg-black transition-colors">
-      <div className="p-8 max-w-4xl mx-auto w-full">
+      <div className="p-4 md:p-8 max-w-4xl mx-auto w-full">
         <div className="mb-8">
           <Link to="/email-chat" className="inline-flex items-center text-sm text-neutral-500 hover:text-indigo-600 dark:hover:text-indigo-400 mb-4 transition-colors">
             <ArrowLeft className="h-4 w-4 mr-1" />
@@ -42,7 +42,7 @@ export default function EmailChatSettings() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-neutral-900 rounded-2xl p-8 shadow-sm border border-neutral-200 dark:border-neutral-800">
+        <div className="bg-white dark:bg-neutral-900 rounded-2xl p-4 md:p-8 shadow-sm border border-neutral-200 dark:border-neutral-800">
           <h2 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4 flex items-center">
             <Code className="h-5 w-5 mr-2 text-neutral-400" />
             Widget Installation Code

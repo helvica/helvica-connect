@@ -80,7 +80,7 @@ export default function Campaigns() {
 
   if (isBuilding) {
     return (
-      <div className="p-8 h-full overflow-y-auto bg-neutral-50 dark:bg-black">
+      <div className="p-4 md:p-8 h-full overflow-y-auto bg-neutral-50 dark:bg-black">
         <Toaster position="top-right" />
         <div className="max-w-4xl mx-auto pb-24">
           <button 
@@ -158,7 +158,7 @@ export default function Campaigns() {
 
   // LIST VIEW
   return (
-    <div className="p-8 h-full overflow-y-auto bg-neutral-50 dark:bg-black">
+    <div className="p-4 md:p-8 h-full overflow-y-auto bg-neutral-50 dark:bg-black">
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">Broadcast Campaigns</h1>
@@ -193,11 +193,11 @@ export default function Campaigns() {
                 </tr>
               ) : campaigns.map((campaign) => (
                 <tr key={campaign.id} className="hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="whitespace-nowrap px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-neutral-900 dark:text-white">{campaign.name}</div>
                     <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5 font-mono">{campaign.template_name}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="whitespace-nowrap px-6 py-4 whitespace-nowrap">
                     <span className={clsx(
                       "px-2.5 py-1 inline-flex items-center gap-1.5 text-xs font-medium rounded-full border",
                       campaign.status === 'Completed' ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800/50" :
@@ -208,20 +208,20 @@ export default function Campaigns() {
                       {campaign.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  <td className="whitespace-nowrap px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
                     <span className="inline-flex items-center px-2 py-0.5 rounded bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
                       {campaign.audience_target}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="whitespace-nowrap px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-neutral-900 dark:text-white font-semibold">
                       {campaign.total_sent.toLocaleString()}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
+                  <td className="whitespace-nowrap px-6 py-4 whitespace-nowrap text-sm text-neutral-500 dark:text-neutral-400">
                      {new Date(campaign.created_at).toLocaleDateString()}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <td className="whitespace-nowrap px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end gap-2">
                        <button 
                          onClick={() => setAnalyticsCampaign(campaign)}

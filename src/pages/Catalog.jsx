@@ -61,7 +61,7 @@ export default function Catalog() {
   };
 
   return (
-    <div className="p-8 h-full overflow-y-auto bg-neutral-50 dark:bg-black">
+    <div className="p-4 md:p-8 h-full overflow-y-auto bg-neutral-50 dark:bg-black">
       <Toaster position="top-right" />
       <div className="mb-8 flex items-center justify-between">
         <div>

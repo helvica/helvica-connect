@@ -93,7 +93,7 @@ export default function Templates() {
     return (
       <div className="flex h-full bg-neutral-50 dark:bg-black overflow-hidden">
         <Toaster position="top-right" />
-        <div className="flex-1 p-8 overflow-y-auto">
+        <div className="flex-1 p-4 md:p-8 overflow-y-auto">
           <button 
             onClick={() => setIsBuilding(false)}
             className="flex items-center text-sm font-medium text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white mb-6 transition-colors"
@@ -157,7 +157,7 @@ export default function Templates() {
         </div>
 
         {/* Live Preview Side */}
-        <div className="w-[450px] bg-neutral-100 dark:bg-neutral-900/50 border-l border-neutral-200 dark:border-neutral-800 p-8 flex flex-col items-center justify-center overflow-y-auto shrink-0">
+        <div className="w-[450px] bg-neutral-100 dark:bg-neutral-900/50 border-l border-neutral-200 dark:border-neutral-800 p-4 md:p-8 flex flex-col items-center justify-center overflow-y-auto shrink-0">
           <div className="flex items-center gap-2 text-neutral-500 dark:text-neutral-400 font-medium mb-6">
             <Smartphone className="w-5 h-5" /> Live Preview
           </div>
@@ -236,7 +236,7 @@ export default function Templates() {
 
         {/* Main Content */}
         <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="p-8 pb-4">
+          <div className="p-4 md:p-8 pb-4">
             {/* Header & Search */}
             <div className="flex items-center justify-between gap-4 mb-6">
               <div className="relative flex-1 max-w-md">
@@ -284,7 +284,7 @@ export default function Templates() {
           </div>
 
           {/* Grid View */}
-          <div className="flex-1 overflow-y-auto p-8 pt-4">
+          <div className="flex-1 overflow-y-auto p-4 md:p-8 pt-4">
             {isLoading ? (
               <div className="flex items-center justify-center h-40">
                 <RefreshCw className="w-8 h-8 text-indigo-500 animate-spin" />

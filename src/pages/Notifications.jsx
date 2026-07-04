@@ -35,7 +35,7 @@ export default function Notifications() {
   };
 
   return (
-    <div className="p-8 max-w-5xl mx-auto h-full flex flex-col">
+    <div className="p-4 md:p-8 max-w-5xl mx-auto h-full flex flex-col">
       <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-neutral-900 dark:text-white flex items-center gap-2">

@@ -178,7 +178,7 @@ export default function Contacts() {
   };
 
   return (
-    <div className="p-8 h-full flex flex-col bg-neutral-50 dark:bg-black">
+    <div className="p-4 md:p-8 h-full flex flex-col bg-neutral-50 dark:bg-black">
       <Toaster position="top-right" />
       
       {/* Header */}
@@ -240,10 +240,11 @@ export default function Contacts() {
       {/* Contacts List */}
       <div className="flex-1 overflow-hidden card bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 flex flex-col rounded-xl shadow-sm">
         <div className="overflow-x-auto flex-1">
-          <table className="w-full text-sm text-left">
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-sm text-left">
             <thead className="text-[13px] font-medium text-neutral-500 dark:text-neutral-400 border-b border-neutral-200 dark:border-neutral-800 sticky top-0 z-10 bg-white dark:bg-neutral-900">
               <tr>
-                <th className="px-6 py-4 w-12">
+                <th className="whitespace-nowrap px-6 py-4 w-12">
                   <input 
                     type="checkbox" 
                     checked={filteredContacts.length > 0 && selectedIds.length === filteredContacts.length}
@@ -251,13 +252,13 @@ export default function Contacts() {
                     className="rounded border-neutral-300 text-emerald-600 focus:ring-emerald-500" 
                   />
                 </th>
-                <th className="px-6 py-4 font-medium">Name</th>
-                <th className="px-6 py-4 font-medium">Mobile Number</th>
-                <th className="px-6 py-4 font-medium">DOB</th>
-                <th className="px-6 py-4 font-medium">Date Added</th>
-                <th className="px-6 py-4 font-medium">Tags</th>
-                <th className="px-6 py-4 font-medium">Source</th>
-                <th className="px-6 py-4 font-medium text-right">Actions</th>
+                <th className="whitespace-nowrap px-6 py-4 font-medium">Name</th>
+                <th className="whitespace-nowrap px-6 py-4 font-medium">Mobile Number</th>
+                <th className="whitespace-nowrap px-6 py-4 font-medium">DOB</th>
+                <th className="whitespace-nowrap px-6 py-4 font-medium">Date Added</th>
+                <th className="whitespace-nowrap px-6 py-4 font-medium">Tags</th>
+                <th className="whitespace-nowrap px-6 py-4 font-medium">Source</th>
+                <th className="whitespace-nowrap px-6 py-4 font-medium text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -280,7 +281,7 @@ export default function Contacts() {
                     onClick={() => setSelectedContact(contact)}
                     className="border-b border-neutral-100 dark:border-neutral-800/50 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors group cursor-pointer"
                   >
-                    <td className="px-6 py-4" onClick={e => e.stopPropagation()}>
+                    <td className="whitespace-nowrap px-6 py-4" onClick={e => e.stopPropagation()}>
                       <input 
                         type="checkbox" 
                         checked={selectedIds.includes(contact.id)}
@@ -288,14 +289,14 @@ export default function Contacts() {
                         className="rounded border-neutral-300 text-emerald-600 focus:ring-emerald-500" 
                       />
                     </td>
-                    <td className="px-6 py-4 font-medium text-neutral-900 dark:text-white">{contact.name}</td>
-                    <td className="px-6 py-4 text-neutral-600 dark:text-neutral-300">{contact.phone}</td>
-                    <td className="px-6 py-4 text-neutral-500">{contact.dob || '-'}</td>
-                    <td className="px-6 py-4 text-neutral-500 text-xs">
+                    <td className="whitespace-nowrap px-6 py-4 font-medium text-neutral-900 dark:text-white">{contact.name}</td>
+                    <td className="whitespace-nowrap px-6 py-4 text-neutral-600 dark:text-neutral-300">{contact.phone}</td>
+                    <td className="whitespace-nowrap px-6 py-4 text-neutral-500">{contact.dob || '-'}</td>
+                    <td className="whitespace-nowrap px-6 py-4 text-neutral-500 text-xs">
                       {new Date(contact.created_at).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}<br/>
                       <span className="text-[10px] text-neutral-400">{new Date(contact.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="whitespace-nowrap px-6 py-4">
                       <div className="flex flex-wrap gap-1.5">
                         {contact.tags && Array.isArray(contact.tags) && contact.tags.length > 0 ? (
                           contact.tags.map((tag, i) => (
@@ -308,7 +309,7 @@ export default function Contacts() {
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="whitespace-nowrap px-6 py-4">
                       <span className={clsx(
                         "inline-flex items-center gap-1.5 px-2 py-1 text-xs font-medium rounded-md border",
                         contact.source === 'WhatsApp' 
@@ -319,7 +320,7 @@ export default function Contacts() {
                         {contact.source}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="whitespace-nowrap px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2" onClick={e => e.stopPropagation()}>
                         <button 
                           onClick={() => openModal(contact)}
@@ -341,6 +342,7 @@ export default function Contacts() {
               )}
             </tbody>
           </table>
+          </div>
         </div>
         
         {/* Pagination Footer */}

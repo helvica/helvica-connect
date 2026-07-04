@@ -77,7 +77,7 @@ export default function Integrations() {
   const selectedIntegration = INTEGRATIONS.find(i => i.id === configModal);
 
   return (
-    <div className="p-8 h-full flex flex-col bg-neutral-50 dark:bg-black overflow-y-auto">
+    <div className="p-4 md:p-8 h-full flex flex-col bg-neutral-50 dark:bg-black overflow-y-auto">
       <Toaster position="top-right" />
       
       {/* Header */}
