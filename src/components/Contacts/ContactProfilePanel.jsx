@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { X, Share, Search as SearchIcon, MessageCircle, Bell, Palette, Lock, Users, Star, FileText, Info } from 'lucide-react';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function ContactProfilePanel({ contact, messages = [], onClose, onSearchClick }) {
+  const { API_URL } = useAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('info');
   const [isMuted, setIsMuted] = useState(false);
 
@@ -99,14 +104,24 @@ export default function ContactProfilePanel({ contact, messages = [], onClose, o
                     {/* About section / Contact Details */}
                     <div className="w-full bg-white dark:bg-[#202C33] rounded-xl overflow-hidden mb-4 shadow-sm border border-neutral-100 dark:border-transparent">
                       <div 
-                        onClick={onClose}
-                        className="p-4 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#2A3942] transition-colors cursor-pointer"
+                        onClick={async () => {
+                          try {
+                            const res = await axios.post(`${API_URL}/chats/find-or-create`, {
+                              phone: contact.phone,
+                              name: contact.name
+                            });
+                            navigate(`/inbox?chat=${res.data.id}`);
+                          } catch (err) {
+                            toast.error('Failed to start chat');
+                          }
+                        }}
+                        className="p-4 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-[#2A3942] transition-colors cursor-pointer group"
                       >
                         <div className="flex flex-col">
-                          <span className="text-neutral-900 dark:text-[#E9EDEF] text-[15px]">{contact.name}</span>
+                          <span className="text-neutral-900 dark:text-[#E9EDEF] text-[15px] group-hover:text-emerald-600 dark:group-hover:text-[#00A884] transition-colors">{contact.name}</span>
                           <span className="text-neutral-500 dark:text-[#8696A0] text-[13px]">{contact.phone.startsWith('+') ? contact.phone : `+${contact.phone}`}</span>
                         </div>
-                        <div className="w-9 h-9 rounded-full bg-emerald-100 dark:bg-[#00A884]/20 flex items-center justify-center">
+                        <div className="w-9 h-9 rounded-full bg-emerald-100 dark:bg-[#00A884]/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                           <MessageCircle className="w-5 h-5 text-emerald-600 dark:text-[#00A884]" />
                         </div>
                       </div>

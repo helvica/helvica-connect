@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
-import { BookOpen, Search, Filter, Plus, ChevronDown, PlayCircle, Download, MoreHorizontal, User, Smartphone, Calendar, Tag, HardDrive, Edit2, Trash2 } from 'lucide-react';
+import { BookOpen, Search, Filter, Plus, ChevronDown, PlayCircle, Download, MoreHorizontal, User, Smartphone, Calendar, Tag, HardDrive, Edit2, Trash2, MessageCircle } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import clsx from 'clsx';
 import ContactProfilePanel from '../components/Contacts/ContactProfilePanel';
 import { exportToCsv } from '../utils/exportToCsv';
+import { useNavigate } from 'react-router-dom';
 
 export default function Contacts() {
   const { API_URL } = useAuth();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedContact, setSelectedContact] = useState(null);
@@ -177,6 +179,19 @@ export default function Contacts() {
     exportToCsv('helvica_contacts_export.csv', exportData);
   };
 
+  const handleDirectMessage = async (contact, e) => {
+    e.stopPropagation();
+    try {
+      const res = await axios.post(`${API_URL}/chats/find-or-create`, {
+        phone: contact.phone,
+        name: contact.name
+      });
+      navigate(`/inbox?chat=${res.data.id}`);
+    } catch (err) {
+      toast.error('Failed to start chat');
+    }
+  };
+
   return (
     <div className="p-4 md:p-8 h-full flex flex-col bg-neutral-50 dark:bg-black">
       <Toaster position="top-right" />
@@ -322,6 +337,13 @@ export default function Contacts() {
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2" onClick={e => e.stopPropagation()}>
+                        <button 
+                          onClick={(e) => handleDirectMessage(contact, e)}
+                          className="p-1.5 text-neutral-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-md transition-colors"
+                          title="Message Contact"
+                        >
+                          <MessageCircle className="w-4 h-4" />
+                        </button>
                         <button 
                           onClick={() => openModal(contact)}
                           className="p-1.5 text-neutral-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-md transition-colors"

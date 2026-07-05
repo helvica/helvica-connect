@@ -697,6 +697,47 @@ app.post('/api/copilot/draft', async (req, res) => {
 });
 
 // 3. Messages Endpoints
+app.post('/api/chats/find-or-create', async (req, res) => {
+    const { phone, name } = req.body;
+    
+    if (!phone || !name) {
+        return res.status(400).json({ error: 'Phone and name are required' });
+    }
+
+    try {
+        // 1. Check if chat already exists for this phone number
+        const [existingChats] = await db.query(
+            'SELECT * FROM chats WHERE contactPhone = ?',
+            [phone]
+        );
+
+        if (existingChats.length > 0) {
+            // Chat exists, return it
+            return res.json(existingChats[0]);
+        }
+
+        // 2. Chat doesn't exist, create a new one
+        const [result] = await db.query(
+            'INSERT INTO chats (contactName, contactPhone, status, lastMessage, unreadCount, timestamp) VALUES (?, ?, ?, ?, ?, ?)',
+            [name, phone, 'Open', '', 0, Date.now()]
+        );
+        
+        const newChatId = result.insertId;
+
+        // Fetch the newly created chat to return it
+        const [newChats] = await db.query('SELECT * FROM chats WHERE id = ?', [newChatId]);
+        
+        // Notify clients about the new chat
+        io.emit('chatsUpdated');
+        
+        res.status(201).json(newChats[0]);
+
+    } catch (e) {
+        console.error("Find or create chat error:", e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
 app.get('/api/chats/:id/messages', async (req, res) => {
     const chatId = parseInt(req.params.id);
     try {

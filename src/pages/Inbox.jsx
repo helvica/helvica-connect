@@ -7,6 +7,7 @@ import { io } from 'socket.io-client';
 import { useAuth } from '../contexts/AuthContext';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
+import { useLocation } from 'react-router-dom';
 import ContactProfilePanel from '../components/Contacts/ContactProfilePanel';
 
 const WhatsAppAudioPlayer = ({ src, sender }) => {
@@ -96,6 +97,7 @@ export default function Inbox() {
   const { API_URL } = useAuth();
   const queryClient = useQueryClient();
   const fileInputRef = React.useRef(null);
+  const location = useLocation();
   
   const [selectedChat, setSelectedChat] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -144,6 +146,18 @@ export default function Inbox() {
       return res.data;
     }
   });
+
+  // Parse URL to auto-select chat if passed from Contacts page
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const chatIdParam = searchParams.get('chat');
+    if (chatIdParam && chats.length > 0 && !selectedChat) {
+      const chatToSelect = chats.find(c => c.id === parseInt(chatIdParam));
+      if (chatToSelect) {
+        setSelectedChat(chatToSelect);
+      }
+    }
+  }, [location.search, chats, selectedChat]);
 
   // Fetch Products for Catalog Modal
   const { data: products = [] } = useQuery({
