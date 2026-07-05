@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import clsx from 'clsx';
 import toast, { Toaster } from 'react-hot-toast';
+import TemplateBuilder from '../components/Templates/TemplateBuilder';
 
 export default function Templates() {
   const { API_URL } = useAuth();
@@ -15,10 +16,6 @@ export default function Templates() {
   const [searchQuery, setSearchQuery] = useState('');
   
   const [isBuilding, setIsBuilding] = useState(false);
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState('MARKETING');
-  const [language, setLanguage] = useState('en_US');
-  const [body, setBody] = useState('');
 
   // 1. Fetch Local Templates
   const { data: templates = [], isLoading } = useQuery({
@@ -44,148 +41,15 @@ export default function Templates() {
     }
   });
 
-  // 3. Create Template
-  const createMutation = useMutation({
-    mutationFn: async () => {
-      // Mock components for Meta format
-      const components = [{ type: 'BODY', text: body }];
-      const res = await axios.post(`${API_URL}/templates`, {
-        name: name.toLowerCase().replace(/\s+/g, '_'),
-        category,
-        language,
-        components
-      });
-      return res.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['templates'] });
-      toast.success('Template submitted to Meta for review!');
-      setIsBuilding(false);
-      setName('');
-      setBody('');
-    },
-    onError: (err) => {
-      toast.error(err.response?.data?.error || 'Failed to submit template');
-    }
-  });
-
-  const handleSave = () => {
-    if (!name || !body) return;
-    createMutation.mutate();
-  };
-
-  const renderPreview = () => {
-    let previewText = body;
-    previewText = previewText.replace(/\{\{1\}\}/g, '[Name]');
-    previewText = previewText.replace(/\{\{2\}\}/g, '[Variable 2]');
-    return previewText || 'Start typing to see preview...';
-  };
-
-  // Filtering Logic
-  const filteredTemplates = templates.filter(tpl => {
-    const matchTab = activeTab === 'All' || tpl.status === activeTab;
-    const matchCat = activeCategory === 'All' || tpl.category === activeCategory;
-    const matchSearch = tpl.name.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchTab && matchCat && matchSearch;
-  });
-
   if (isBuilding) {
     return (
-      <div className="flex h-full bg-neutral-50 dark:bg-black overflow-hidden">
-        <Toaster position="top-right" />
-        <div className="flex-1 p-4 md:p-8 overflow-y-auto">
-          <button 
-            onClick={() => setIsBuilding(false)}
-            className="flex items-center text-sm font-medium text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white mb-6 transition-colors"
-          >
-            <X className="w-5 h-5 mr-2" />
-            Cancel
-          </button>
-          
-          <h1 className="text-3xl font-bold text-neutral-900 dark:text-white mb-2">Create AI-Flow Template</h1>
-          <p className="text-neutral-500 dark:text-neutral-400 mb-8">Design and submit a new WhatsApp template to Meta for instant review.</p>
-          
-          <div className="space-y-6 max-w-2xl">
-            <div className="card p-6 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
-              <label className="block text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Template Name</label>
-              <input 
-                type="text" 
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. summer_sale_alert"
-                className="input-field w-full bg-neutral-50 dark:bg-black"
-                disabled={createMutation.isPending}
-              />
-              <p className="text-xs text-neutral-500 mt-2">Lowercase letters and underscores only.</p>
-            </div>
-
-            <div className="card p-6 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 flex gap-4">
-              <div className="flex-1">
-                <label className="block text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Category</label>
-                <select value={category} onChange={(e) => setCategory(e.target.value)} className="input-field w-full bg-neutral-50 dark:bg-black" disabled={createMutation.isPending}>
-                  <option value="MARKETING">Marketing</option>
-                  <option value="UTILITY">Utility</option>
-                  <option value="AUTHENTICATION">Authentication</option>
-                </select>
-              </div>
-              <div className="flex-1">
-                <label className="block text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Language</label>
-                <select value={language} onChange={(e) => setLanguage(e.target.value)} className="input-field w-full bg-neutral-50 dark:bg-black" disabled={createMutation.isPending}>
-                  <option value="en_US">English (US)</option>
-                  <option value="es_ES">Spanish (Spain)</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="card p-6 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
-              <label className="block text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Message Body</label>
-              <textarea 
-                rows={6}
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-                placeholder="Hi {{1}}, thanks for your order! Your total is {{2}}."
-                className="input-field w-full resize-none bg-neutral-50 dark:bg-black"
-                disabled={createMutation.isPending}
-              ></textarea>
-            </div>
-
-            <button onClick={handleSave} disabled={!name || !body || createMutation.isPending} className="btn-primary w-full py-3 flex items-center justify-center disabled:opacity-50 text-base font-semibold shadow-lg shadow-indigo-500/30">
-              {createMutation.isPending ? <RefreshCw className="w-5 h-5 mr-2 animate-spin" /> : <ArrowRight className="w-5 h-5 mr-2" />}
-              Submit to Meta
-            </button>
-          </div>
-        </div>
-
-        {/* Live Preview Side */}
-        <div className="w-[450px] bg-neutral-100 dark:bg-neutral-900/50 border-l border-neutral-200 dark:border-neutral-800 p-4 md:p-8 flex flex-col items-center justify-center overflow-y-auto shrink-0">
-          <div className="flex items-center gap-2 text-neutral-500 dark:text-neutral-400 font-medium mb-6">
-            <Smartphone className="w-5 h-5" /> Live Preview
-          </div>
-          
-          <div className="w-[320px] h-[650px] bg-black rounded-[40px] shadow-2xl p-3 relative border-4 border-neutral-800 shrink-0">
-            <div className="w-full h-full bg-[#EFEAE2] dark:bg-[#111B21] rounded-[28px] overflow-hidden flex flex-col relative">
-              <div className="h-16 bg-[#008069] dark:bg-[#202C33] flex items-center px-4 shrink-0 shadow-sm z-10">
-                <div className="w-8 h-8 rounded-full bg-neutral-300 dark:bg-neutral-600"></div>
-                <div className="ml-3">
-                  <div className="text-white font-semibold text-sm">Business Account</div>
-                  <div className="text-white/80 text-[10px]">online</div>
-                </div>
-              </div>
-              <div className="flex-1 p-4 overflow-y-auto relative bg-[#EFEAE2] dark:bg-[#111B21]">
-                <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'url("https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png")', backgroundSize: '400px' }}></div>
-                {body && (
-                  <div className="bg-white dark:bg-[#202C33] p-3 rounded-lg rounded-tl-none shadow-sm max-w-[90%] relative z-10 border border-neutral-100 dark:border-transparent">
-                    <p className="text-sm text-neutral-900 dark:text-neutral-100 whitespace-pre-wrap leading-relaxed">
-                      {renderPreview()}
-                    </p>
-                    <div className="text-[10px] text-neutral-400 text-right mt-1">12:00 PM</div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <TemplateBuilder 
+        onCancel={() => setIsBuilding(false)} 
+        onSuccess={() => {
+          setIsBuilding(false);
+          queryClient.invalidateQueries({ queryKey: ['templates'] });
+        }} 
+      />
     );
   }
 
