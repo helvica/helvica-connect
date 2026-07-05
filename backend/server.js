@@ -18,6 +18,24 @@ const PORT = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_key_123';
 
 const server = http.createServer(app);
+
+// Database Upgrades
+(async function upgradeDatabase() {
+    try {
+        await db.query(`ALTER TABLE products ADD COLUMN sku VARCHAR(100)`);
+    } catch(e) {}
+    try {
+        await db.query(`ALTER TABLE products ADD COLUMN category VARCHAR(100) DEFAULT 'Uncategorized'`);
+    } catch(e) {}
+    try {
+        await db.query(`ALTER TABLE products ADD COLUMN stock_quantity INT DEFAULT 0`);
+    } catch(e) {}
+    try {
+        await db.query(`ALTER TABLE products ADD COLUMN variants JSON`);
+    } catch(e) {}
+    console.log("Database schema checks completed.");
+})();
+
 const io = new Server(server, {
     cors: { origin: "*" }
 });
@@ -354,13 +372,13 @@ app.put('/api/chats/:id/assign', async (req, res) => {
 // --- MESSAGES ENDPOINTS ---
 
 app.post('/api/products', async (req, res) => {
-    const { name, description, price, image_url, stock_status } = req.body;
+    const { name, description, price, image_url, stock_status, sku, category, stock_quantity, variants } = req.body;
     try {
         const [result] = await db.query(
-            'INSERT INTO products (name, description, price, image_url, stock_status) VALUES (?, ?, ?, ?, ?)',
-            [name, description, price, image_url, stock_status || 'In Stock']
+            'INSERT INTO products (name, description, price, image_url, stock_status, sku, category, stock_quantity, variants) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [name, description, price, image_url, stock_status || 'In Stock', sku || '', category || 'Uncategorized', stock_quantity || 0, variants ? JSON.stringify(variants) : null]
         );
-        res.status(201).json({ id: result.insertId, name, description, price, image_url, stock_status });
+        res.status(201).json({ id: result.insertId, name, description, price, image_url, stock_status, sku, category, stock_quantity, variants });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
