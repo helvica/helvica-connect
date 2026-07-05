@@ -41,6 +41,14 @@ export default function Templates() {
     }
   });
 
+  // Filtering Logic
+  const filteredTemplates = templates.filter(tpl => {
+    const matchTab = activeTab === 'All' || tpl.status === activeTab;
+    const matchCat = activeCategory === 'All' || tpl.category === activeCategory;
+    const matchSearch = (tpl.name || '').toLowerCase().includes(searchQuery.toLowerCase());
+    return matchTab && matchCat && matchSearch;
+  });
+
   if (isBuilding) {
     return (
       <TemplateBuilder 
